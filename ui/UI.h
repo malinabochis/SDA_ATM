@@ -8,12 +8,10 @@
 class UI {
 private:
     Service srv;
-
     void menu() const;
 
 public:
     UI();
-
     void run();
 };
 
