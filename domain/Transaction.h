@@ -1,0 +1,16 @@
+#ifndef SDA_CPP_TRANSACTION_H
+#define SDA_CPP_TRANSACTION_H
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif //SDA_CPP_TRANSACTION_H
