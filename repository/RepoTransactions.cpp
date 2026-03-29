@@ -31,7 +31,7 @@ void RepoTransactions::add(const Transaction &t) {
 }
 
 
-// size
+// get size
 
 int RepoTransactions::getSize() const {
     return size;
@@ -40,7 +40,7 @@ int RepoTransactions::getSize() const {
 
 // get
 
-Transaction RepoTransactions::get(int index) const {
+const Transaction& RepoTransactions::get(int index) const {
     return transaction[index];
 }
 

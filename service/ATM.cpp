@@ -25,9 +25,11 @@ int ATM::noAvailableBanknotes(int value) const {
 // extract banknotes (used in transactions)
 
 bool ATM::extractBanknotes(int value, int number) {
+    if (banknotes.noOccurrences(value) < number) {
+        return false; // not enough banknotes for the desired sum to be extracted
+    }
     for (int i = 0; i < number; i++) {
-        if (!banknotes.remove(value))
-            return false;
+        banknotes.remove(value);
     }
     return true;
 }
