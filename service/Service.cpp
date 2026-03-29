@@ -83,6 +83,29 @@ Transaction Service::extraction(int sum) {
 // show transactions
 
 void Service::showTransaction() const {
-    ///todo
+    int size = repo.getSize();
+
+    if (size == 0) {
+        std::cout << "No registered transaction yet.\n";
+        return;
+    }
+
+    std::cout << "\n=== ATM TRANSACTIONS HISTORY ===\n";
+
+    for (int i = 0; i < size; i++) {
+        const Transaction& t = repo.get(i);
+
+        std::cout << "Transaction #" << t.getId() << " | Extracted Sum: " << t.getSum() << " RON\n";
+        std::cout << "Used banknotes:\n";
+
+        PaymentBanknote* banknotes = t.getBanknotes();
+        int noBanknotes = t.getNoBanknotes();
+
+        for (int j = 0; j < noBanknotes; j++) {
+            std::cout << "  -> " << banknotes[j].number << " buc. x " << banknotes[j].value << " RON\n";
+        }
+        std::cout << "-----------------------------------\n";
+    }
+
 
 }
