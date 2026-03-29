@@ -7,7 +7,7 @@ add_executable(SDA_ATM  main.cpp
         domain/Transaction.h
         domain/Transaction.cpp
                         TAD/Collection.h
-                        TAD/Collection.cpp
+        TAD/Collection.tpp
                         repository/RepoTransactions.h
                         repository/RepoTransactions.cpp
                         service/Service.h
