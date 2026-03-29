@@ -13,4 +13,6 @@ add_executable(SDA_ATM  main.cpp
                         service/Service.h
                         service/Service.cpp
                         ui/UI.h
-                        ui/UI.cpp)
+                        ui/UI.cpp
+        service/ATM.cpp
+        service/ATM.h)
