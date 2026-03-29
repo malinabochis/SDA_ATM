@@ -1,8 +1,22 @@
-//
-// Created by Asus on 29-Mar-26.
-//
+#ifndef SDA_ATM_REPOTRANSACTIONS_H
+#define SDA_ATM_REPOTRANSACTIONS_H
 
-#ifndef SDA_CPP_REPOTRANSACTIONS_H
-#define SDA_CPP_REPOTRANSACTIONS_H
+#include "../domain/Transaction.h"
 
-#endif //SDA_CPP_REPOTRANSACTIONS_H
+class RepoTransactions {
+private:
+    Transaction* transaction; // vector dinamic
+    int size;
+    int capacity;
+
+    void resize();
+
+public:
+    RepoTransactions();
+    void add(const Transaction& t);
+    int getSize() const;
+    Transaction get(int index) const;
+    ~RepoTransactions();
+};
+
+#endif
