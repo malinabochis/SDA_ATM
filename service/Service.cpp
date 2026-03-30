@@ -26,6 +26,7 @@ bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int
     }
     if (stepIndex >= 7 || rest < 0) // am terminat tipurile de bancnote sau am scazut prea mult
         return false;
+
     int val = values[stepIndex];
     int available = atm.noAvailableBanknotes(val);
     int maxPossible = std::min(rest / val, available);
@@ -37,7 +38,7 @@ bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int
         currentPlan[stepIndex] = take;
         bool succes = backtrackExtraction(rest - (take * val), stepIndex + 1, currentPlan, finalPlan, values);
         if (succes) return true;
-        // else se pune inapoi bancnota si s eincearca alta configuratie
+        // else se pune inapoi bancnota si se incearca alta configuratie
     }
 
     return false; // nicio incercare nu a mers
@@ -106,6 +107,4 @@ void Service::showTransaction() const {
         }
         std::cout << "-----------------------------------\n";
     }
-
-
 }

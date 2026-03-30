@@ -1,0 +1,8 @@
+//service to do
+//ui
+//metoda care face retragerea din service sa iti zica dak vrei sa continui cu nr minim de bancnote pe care
+are bancomatu, sa il intrebam pe utilizator sau nu, sau sau etc, sa ti dea suma cu toate tipurile de bancnote
+ca sa nu si consume repede toate bancnotele mari etc
+//pt labu 2, nu avem treaba cu multimea ordonata, aia e pt labu 3
+
+//functia afiseaza service e in service momentan ca sa ruleze codul, e temporar, nu acolo trebe si nu asa
