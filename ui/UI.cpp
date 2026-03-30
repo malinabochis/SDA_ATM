@@ -35,6 +35,10 @@ void UI::run() {
                 }
                 std::cout << "Enter number of banknotes: ";
                 std::cin >> number;
+                if (int(number) <= 0) {
+                    std::cout << "Invalid number of banknotes";
+                    break;
+                }
 
                 srv.addBanknotes(value, number);
                 std::cout << "-> Banknotes successfully added to the ATM!\n";
