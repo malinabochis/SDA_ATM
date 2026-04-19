@@ -7,15 +7,17 @@ Transaction::Transaction() {
     sum = 0;
     banknotes = nullptr;
     noBanknotes = 0;
+    date = {1, 1, 1970};
 }
 
 
 // constructor
 
-Transaction::Transaction(int id, int sum, PaymentBanknote* b, int noBanknotes) {
+Transaction::Transaction(int id, int sum, PaymentBanknote* b, int noBanknotes, Date date) {
     this->id = id;
     this->sum = sum;
     this->noBanknotes = noBanknotes;
+    this->date = date;
 
     banknotes = new PaymentBanknote[noBanknotes];
     for (int i = 0; i < noBanknotes; i++)
@@ -29,6 +31,7 @@ Transaction::Transaction(const Transaction &source) {
     id = source.id;
     sum = source.sum;
     noBanknotes = source.noBanknotes;
+    date = source.date;
 
     banknotes = new PaymentBanknote[noBanknotes];
     for (int i = 0; i < noBanknotes; i++)
@@ -47,6 +50,7 @@ Transaction &Transaction::operator=(const Transaction &source) {
     id = source.id;
     sum = source.sum;
     noBanknotes = source.noBanknotes;
+    date = source.date;
 
     banknotes = new PaymentBanknote[noBanknotes];
     for (int i = 0; i < noBanknotes; i++)
@@ -77,6 +81,10 @@ PaymentBanknote *Transaction::getBanknotes() const {
 
 int Transaction::getNoBanknotes() const {
     return noBanknotes;
+}
+
+Date Transaction::getDate() const {
+    return date;
 }
 
 // destructor:
