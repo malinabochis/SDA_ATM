@@ -83,7 +83,7 @@ void UI::run() {
                 break;
             }
             case 3: {
-                srv.showTransaction();
+                showTransactions(srv.getTransactionsSortedById());
                 break;
             }
             case 4: {
