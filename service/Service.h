@@ -20,6 +20,8 @@ public:
     void showTransaction() const;
     [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedBySum() const;
     [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedById() const;
+    [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedByNoBanknotes() const;
+    [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedByDate() const;
 };
 
 #endif //SDA_CPP_SERVIE_H

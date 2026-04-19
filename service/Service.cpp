@@ -134,3 +134,33 @@ OrderedSet<Transaction> Service::getTransactionsSortedById() const {
         sortedTransactions.add(repo.get_transaction(i));
     return sortedTransactions;
 }
+
+
+static bool compByNoBanknotes(const Transaction& t1, const Transaction& t2) {
+    return t1.getNoBanknotes() < t2.getNoBanknotes();
+}
+
+OrderedSet<Transaction> Service::getTransactionsSortedByNoBanknotes() const {
+    OrderedSet<Transaction> sortedTransactions(compByNoBanknotes);
+    int size = repo.getSize();
+    for (int i = 0; i < size; i++)
+        sortedTransactions.add(repo.get_transaction(i));
+    return sortedTransactions;
+}
+
+
+static bool compByDate(const Transaction& t1, const Transaction& t2) {
+    if (t1.getDate().year != t2.getDate().year)
+        return t1.getDate().year < t2.getDate().year;
+    if (t1.getDate().month != t2.getDate().month)
+        return t1.getDate().month < t2.getDate().month;
+    return t1.getDate().day < t2.getDate().day;
+}
+
+OrderedSet<Transaction> Service::getTransactionsSortedByDate() const {
+    OrderedSet<Transaction> sortedTransactions(compByDate);
+    int size = repo.getSize();
+    for (int i = 0; i < size; i++)
+        sortedTransactions.add(repo.get_transaction(i));
+    return sortedTransactions;
+}
