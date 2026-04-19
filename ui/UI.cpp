@@ -37,7 +37,6 @@ void UI::showTransactions(const OrderedSet<Transaction>& set) {
     }
 }
 
-// run => in fct de ce alege utilizatorul, apeleaza aia aia aia
 // run
 void UI::run() {
     int option = -1;
@@ -50,16 +49,19 @@ void UI::run() {
         switch (option) {
             case 1: {
                 int value, number;
-                std::cout << "Enter banknote value (e.g., 10, 20, 50, 100, 200, 500, 1000): ";
+                std::cout << "Enter banknote value: ";
                 std::cin >> value;
-                if ((int(value) != 10 && int(value) != 20 && int(value) != 50 && int(value) != 100 && int(value) != 200 && int(value) != 500 && int(value) != 1000) || int(value) <= 0) {
-                    std::cout << "This type of banknote does not exist.";
+
+                if (value <= 0) {
+                    std::cout << "-> ERROR: Banknote value must be strictly positive!\n";
                     break;
                 }
+
                 std::cout << "Enter number of banknotes: ";
                 std::cin >> number;
-                if (int(number) <= 0) {
-                    std::cout << "Invalid number of banknotes";
+
+                if (number <= 0) {
+                    std::cout << "-> ERROR: Invalid number of banknotes!\n";
                     break;
                 }
 

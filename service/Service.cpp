@@ -2,37 +2,42 @@
 
 #include <iostream>
 #include <ctime>
-// constructor
 
-Service::Service() {
-    nextId = 1; // first transaction of the day
+static bool compDescBanknotes(const int& a, const int& b) {
+    return a > b;
 }
 
+// constructor
+
+Service::Service() : knownBanknotes(compDescBanknotes) {
+    nextId = 1;
+}
 
 // add banknotes in ATM
 
 void Service::addBanknotes(int value, int number) {
     atm.addBanknotes(value, number);
+    knownBanknotes.add(value);
 }
+
 
 
 // helper extraction function
 
-bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int *finalPlan, const int *values) {
+bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int *finalPlan, const OrderedSet<int>& values) {
+    int N = values.noElems(); // Câte tipuri unice avem?
+
     if (rest == 0) {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < N; i++)
             finalPlan[i] = currentPlan[i];
         return true;
     }
-    if (stepIndex >= 7 || rest < 0) // am terminat tipurile de bancnote sau am scazut prea mult
-        return false;
 
-    int val = values[stepIndex];
+    if (stepIndex >= N || rest < 0) return false;  // am terminat tipurile de bancnote sau am scazut prea mult
+
+    int val = values.getAt(stepIndex);
     int available = atm.noAvailableBanknotes(val);
     int maxPossible = std::min(rest / val, available);
-
-    if (val == 50 && maxPossible > 4)
-        maxPossible = 4;
 
     for (int take = maxPossible; take >= 0; take--) {
         currentPlan[stepIndex] = take;
@@ -41,7 +46,7 @@ bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int
         // else se pune inapoi bancnota si se incearca alta configuratie
     }
 
-    return false; // nicio incercare nu a mers
+    return false;
 }
 
 
@@ -62,36 +67,47 @@ static Date getCurrentDate() {
 Transaction Service::extraction(int sum) {
     if (sum <= 0) throw std::exception();
 
-    int possibleValues[] = {1000, 500, 200, 100, 50, 20, 10};
-    int currentPlan[7] = {0};
-    int finalPlan[7] = {0};
+    int N = knownBanknotes.noElems(); // Cate tipuri cunoaste bancomatul
+    if (N == 0) throw std::exception(); // Daca nu s-a introdus niciun ban inca
 
-    bool isPossible = backtrackExtraction(sum, 0, currentPlan, finalPlan, possibleValues);
+    // Alocam planurile dinamic in functie de cate tipuri de bancnote avem
+    int* currentPlan = new int[N](); // () de la final initializeaza array-ul cu 0 automat
+    int* finalPlan = new int[N]();
+
+    bool isPossible = backtrackExtraction(sum, 0, currentPlan, finalPlan, knownBanknotes);
+
     if (isPossible) {
         Date date = getCurrentDate();
 
-        //constructing extracted banknotes
         int uniqueBanknotes = 0;
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < N; i++) {
             if (finalPlan[i] > 0) {
-                atm.extractBanknotes(possibleValues[i], finalPlan[i]);
+                atm.extractBanknotes(knownBanknotes.getAt(i), finalPlan[i]);
                 uniqueBanknotes++;
             }
+        }
 
         auto* extracted = new PaymentBanknote[uniqueBanknotes];
         int index = 0;
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < N; i++) {
             if (finalPlan[i] > 0) {
-                extracted[index].value = possibleValues[i];
+                extracted[index].value = knownBanknotes.getAt(i);
                 extracted[index].number = finalPlan[i];
                 ++index;
             }
+        }
+
         Transaction t(nextId++, sum, extracted, uniqueBanknotes, date);
         repo.add(t);
+
         delete[] extracted;
+        delete[] currentPlan;
+        delete[] finalPlan;
+
         return t;
-    }
-    else {
+    } else {
+        delete[] currentPlan;
+        delete[] finalPlan;
         throw std::exception();
     }
 }
@@ -141,7 +157,9 @@ static bool compByDate(const Transaction& t1, const Transaction& t2) {
         return t1.getDate().year < t2.getDate().year;
     if (t1.getDate().month != t2.getDate().month)
         return t1.getDate().month < t2.getDate().month;
-    return t1.getDate().day < t2.getDate().day;
+    if (t1.getDate().day != t2.getDate().day)
+        return t1.getDate().day < t2.getDate().day;
+    return t1.getId() < t2.getId();
 }
 
 OrderedSet<Transaction> Service::getTransactionsSortedByDate() const {

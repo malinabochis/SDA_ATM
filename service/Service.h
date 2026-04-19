@@ -11,7 +11,8 @@ private:
     RepoTransactions repo;
     ATM atm;
     int nextId;
-    bool backtrackExtraction(int rest, int stepIndex, int* currentPlan, int* finalPlan, const int* values);
+    OrderedSet<int> knownBanknotes;
+    bool backtrackExtraction(int rest, int stepIndex, int* currentPlan, int* finalPlan, const OrderedSet<int>& values);
 
 public:
     Service();
