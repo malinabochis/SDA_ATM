@@ -11,7 +11,30 @@ void UI::menu() const {
     std::cout << "1. Add banknotes\n";
     std::cout << "2. Extract sum\n";
     std::cout << "3. Show transactions\n";
+    std::cout << "4. Show transactions sorted by date\n";
+    std::cout << "5. Show transactions sorted by sum\n";
+    std::cout << "6. Show transactions sorted by number of banknotes\n";
     std::cout << "0. Exit\n";
+}
+
+void UI::printTransaction(const Transaction& t) {
+    Date d = t.getDate();
+    std::cout << "ID: " << t.getId()
+              << " | Sum: " << t.getSum()
+              << " | Banknotes: " << t.getNoBanknotes()
+              << " | Date: " << d.day << "/" << d.month << "/" << d.year
+              << "\n";
+}
+
+void UI::showTransactions(const OrderedSet<Transaction>& set) {
+    if (set.noElems() == 0) {
+        std::cout << "No transactions available.\n";
+        return;
+    }
+
+    for (int i = 0; i < set.noElems(); i++) {
+        printTransaction(set.getAt(i));
+    }
 }
 
 // run => in fct de ce alege utilizatorul, apeleaza aia aia aia
@@ -61,6 +84,18 @@ void UI::run() {
             }
             case 3: {
                 srv.showTransaction();
+                break;
+            }
+            case 4: {
+                showTransactions(srv.getTransactionsSortedByDate());
+                break;
+            }
+            case 5: {
+                showTransactions(srv.getTransactionsSortedBySum());
+                break;
+            }
+            case 6: {
+                showTransactions(srv.getTransactionsSortedByNoBanknotes());
                 break;
             }
             case 0: {

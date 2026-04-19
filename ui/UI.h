@@ -9,6 +9,8 @@ class UI {
 private:
     Service srv;
     void menu() const;
+    static void printTransaction(const Transaction& t);
+    static void showTransactions(const OrderedSet<Transaction>& set) ;
 
 public:
     UI();

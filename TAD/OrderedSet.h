@@ -18,7 +18,7 @@ public:
     int search_position(E elem);
     bool ifExist(E elem);
     [[nodiscard]] int noElems() const;
-    E getAt(int position);
+    E getAt(int position) const;
     int remove(E elem);
     ~OrderedSet();
 };

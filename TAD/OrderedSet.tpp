@@ -74,7 +74,7 @@ int OrderedSet<E>::noElems() const {
 }
 
 template<typename E>
-E OrderedSet<E>::getAt(int position) {
+E OrderedSet<E>::getAt(int position) const {
     return elems[position];
 }
 

@@ -17,7 +17,6 @@ public:
     Service();
     void addBanknotes(int value, int number);
     Transaction extraction(int sum);
-    void showTransaction() const;
     [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedBySum() const;
     [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedById() const;
     [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedByNoBanknotes() const;
