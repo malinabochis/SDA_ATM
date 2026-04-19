@@ -29,10 +29,10 @@ public:
     bool operator==(const Transaction& source) const; // equal if id is equal
 
     // getters
-    int getId() const;
-    int getSum() const;
-    PaymentBanknote* getBanknotes() const;
-    int getNoBanknotes() const;
+    [[nodiscard]] int getId() const;
+    [[nodiscard]] int getSum() const;
+    [[nodiscard]] PaymentBanknote* getBanknotes() const;
+    [[nodiscard]] int getNoBanknotes() const;
 
     // destructor:
     ~Transaction();

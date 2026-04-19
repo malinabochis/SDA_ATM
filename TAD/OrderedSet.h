@@ -1,6 +1,6 @@
 #ifndef SDA_ATM_ORDEREDSET_H
 #define SDA_ATM_ORDEREDSET_H
-#include "OrderedSet.tpp"
+
 #pragma once
 
 template <typename E>
@@ -17,10 +17,10 @@ public:
     void add(E elem);
     int search_position(E elem);
     bool ifExist(E elem);
-    int noElems();
+    [[nodiscard]] int noElems() const;
     E getAt(int position);
     int remove(E elem);
     ~OrderedSet();
 };
-
+#include "OrderedSet.tpp"
 #endif //SDA_ATM_ORDEREDSET_H

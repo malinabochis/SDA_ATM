@@ -108,3 +108,10 @@ void Service::showTransaction() const {
         std::cout << "-----------------------------------\n";
     }
 }
+
+OrderedSet<Transaction> Service::getTransactionsSortedBySum() {
+
+}
+
+OrderedSet<Transaction> Service::getTransactionsSortedById() {
+}

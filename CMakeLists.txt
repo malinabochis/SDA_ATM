@@ -17,4 +17,6 @@ add_executable(SDA_ATM  main.cpp
         service/ATM.cpp
         service/ATM.h
         TAD/OrderedSet.h
-        TAD/OrderedSet.tpp)
+        infrastructure/Algorithms.h
+        TAD/OrderedSet.tpp
+        infrastructure/Algorithms.tpp)

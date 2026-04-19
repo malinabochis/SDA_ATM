@@ -69,7 +69,7 @@ void OrderedSet<E>::add(E elem) {
 //noElems
 
 template<typename E>
-int OrderedSet<E>::noElems() {
+int OrderedSet<E>::noElems() const {
     return size;
 }
 

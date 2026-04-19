@@ -4,6 +4,7 @@
 #pragma once
 #include "ATM.h"
 #include "../repository/RepoTransactions.h"
+#include "../TAD/OrderedSet.h"
 
 class Service {
 private:
@@ -17,6 +18,8 @@ public:
     void addBanknotes(int value, int number);
     Transaction extraction(int sum);
     void showTransaction() const;
+    OrderedSet<Transaction> getTransactionsSortedBySum();
+    OrderedSet<Transaction> getTransactionsSortedById();
 };
 
 #endif //SDA_CPP_SERVIE_H
