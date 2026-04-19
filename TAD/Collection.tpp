@@ -30,13 +30,13 @@ Collection<E>::Collection(const Collection &source) {
 // "=" operator
 template<typename E>
 Collection<E>& Collection<E>::operator=(const Collection &source) {
-    if (this == &source)
+    if (this == &source) // this este adresa lui Collection<E>::operator=
         return *this;
 
     delete[] this->elems;
 
     this->length = source.size();
-    this-capacity = source.capacity;
+    this->capacity = source.capacity;
 
     this->elems = new E[this->capacity];
     for (int i = 0; i < length; i++)
@@ -51,8 +51,8 @@ Collection<E>& Collection<E>::operator=(const Collection &source) {
 template <typename E>
 void Collection<E>::add(E elem) {
     for (int i = 0; i < length; i++)
-        if (elems[i].elem == elem) {
-            ++elems[i].freq;
+        if (elems[i].elem == elem) { //elems[i].elem este obiectul Pair de pe pozitia i, care in structura sa are variabila numita elems
+            ++elems[i].freq; //elems[i].elem este obiectul Pair de pe pozitia i, care in structura sa are variabila numita freq
             return;
         }
     if (length == capacity)
@@ -63,7 +63,7 @@ void Collection<E>::add(E elem) {
 }
 
 // elems = pointer catre inceputul array-ului
-// elems[i] = accesteaza obiectul pair de la pozitia i
+// elems[i] = acceseaza obiectul pair de la pozitia i
 // .elems = deschide si acceseaza variabila numita elem care este de tipul E
 
 
@@ -121,7 +121,7 @@ int Collection<E>::size() const {
 // getAt
 
 template <typename E>
-E Collection<E>::getAt(int position) const {
+E Collection<E>::getAt(const int position) const {
     if (position < 0 || position >= size())
         throw std::exception();
 

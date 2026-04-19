@@ -6,7 +6,7 @@ struct PaymentBanknote {
     int number;
 };
 
-class Transaction { // tranzactiile le pun intr-o multime later on..in lab 3
+class Transaction { // tranzactiile le pun intr-o multime later on...in lab 3
 private:
     int id;
     int sum;

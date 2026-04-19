@@ -6,3 +6,7 @@ ca sa nu si consume repede toate bancnotele mari etc
 //pt labu 2, nu avem treaba cu multimea ordonata, aia e pt labu 3
 
 //functia afiseaza service e in service momentan ca sa ruleze codul, e temporar, nu acolo trebe si nu asa
+
+
+//poti baga in collection o functie care returneaza o multime ordonata de numarul de bancnote din fiecare element din colectie
+//sa iau din atm bancnotele doar din cele deja adaugate in atm, sa nu harcodez/presupun in service ca doar un anumit tip de bancnote exista

@@ -1,0 +1,118 @@
+TAD
+
+Am clasa pe care vreau sa o implementez, de ex Collection.
+Elementele din ea vor fi un vector dinamic template <typename E> pentru ca vreau ca aceasta clasa Collection sa poata contine orice tip de elemente.
+Eu stiu ca o colectie vreau sa poata contine orice numar dintr-un enume element, asa ca deci ca toate elementele din clasa Collection sa fie de tip
+pereche, asa ca impletentez o structura struct Pair cu E elem si int freq.
+In metoda private din clasa Collection, mentionez care sunt elementele colectiei ( de tip pair ), lungimea, capacitatea initiala si metoda resize
+daca trebuie sa maresc capacitatea initiala. La astea nu vreau sa aiba acces oricine.
+Metodele publice sunt cele de colectie vida / constructorul Collection() (pentru initializarea oricarei colectii cand lucrez cu ea, inainte sa adaug
+elemente in ea, copy constructorul Collection(const Collection& source) (pentru cand vreau sa transmit ca parametru o colectie, sa stie cum sa copieze
+toate elementele din ea), declararea operatorului de atribuire Collection& operator=(const Collection& source), metoda de adaugare, stergere, cautare,
+aflarea numarului de aparitii ale unui element, aflarea marimii curente, getAt  (!!toate de la search pana aici sunt obligate sa returneze o constanta)
+si destructorul ~Collection().
+
+Collection tpp este locul unde implementez toate functiile declarate cu nume ca metode private si publice. Toate lucreaza pe un vector dynamic
+template<typename E> propriu care este vectorul in care punem toate elementele din colectie.
+
+Constructorul da o capacitate initiala si spune ca colectia este initial de lungime 0 (pentru multimea vida pe care vom dori sa o implementam in orice
+program ulterior inainte sa punem chestii in acea variabila de tip colectie) si spune ca orice elems este o noua variabila E de tip pereche Pair cu o
+capacitate data de noi.
+
+Copy constructorul are ca parametru un pointer constant de tip collection &source pe care il folosim pur si simplu sa facem copy la toate variabilele
+private dintr-o colectie (capacitate, length, elems), iar pentru vectorul dynamic elems E de tip pereche cu capacitate data de copia capacitatii, se
+copiaza toate elementele intr-un for din elems al sursei (source.elems[i]) in vectorul copie elems[i].
+
+La definitia operatorului de atribuire, in primul rand verific daca adresa de memorie a lui this, adica a colectiei pe care o compar, este aceeasi cu
+adresa de memorie a sursei (if this == &source), pentru ca daca sunt egale, returnez valoarea aflata la adresa lui this (*this), adica cand voi folosi
+operatorul =, voi da valoarea din dreapta celui din stanga. Daca conditia nu e indeplinita, se merge mai departe si se sterg toate elementele din this
+(care remember!! e o colectie) (cand faci o atribuire catre o variabila, intai stergi legatura ei cu adresa spre care pointuia inainte}, lui
+this->length ii dau marimea sursei, lui this->capacity ii dau capacitatea sursei, lui this->elems ii dau un nou vector E de capacitatea curenta
+this->capacity deja create si printr-un for, tuturor elementelor din elems le dau valorile din elems ale sursei. In final, returnez valoarea colectiei
+this (*this).
+
+Pentru adaugarea unui element elem de tip E (generic) in colectie, intai verificam daca exista deja, cautand cu i in toata lungimea length, verificand
+daca elems[i].elems (obiectul/elementul Pair de pe pozitia i care are in structura sa variabila numita elems) este egal cu elem pe care vrem sa il
+adaugam; daca e egal, marim frecventa elems[i].freq si return. Daca nu exista deja, va trebuie sa creem un nou element de tip pereche pe care sa il
+punem in elems[length], dar pentru asta trebuie intai sa verificam daca length a ajuns egal cu capacitatea maxima, pentru ca daca s-a intamplat asta,
+trebuie dat resize(). Apoi pe pozitia goala length punem elem si ii setam frecventa 1, marind lungimea cu ++.
+
+Pentru stergere, seamana. Cautam pe toata lungimea elem dorit, daca il gasim, micim frecventa cu -- (“il stergem”). Daca, dupa aceasta procedura,
+frecventa a ajuns la 0, nu are rost sa mai tinem perechea elem[i] in vector, asa ca iau ultimul element din vector si il mut in locul I (!!remember,
+colectia nu e multimer ordonata, e mai efficient asa decat sa ii mut pe toti pe rand la stanga), apoi scad length --. Daca toate aceste operatii s-au
+efectuat, returnez true, altfel returnez false, pentru ca inseamna ca nu am gasit nicaieri elementul dorit a se sterge.
+
+La cautare doar verific daca elems[i].elem este egal cu elem.
+La nr de aparitii doar returnez frecventa elem cautat daca il gasesc, altfel 0.
+La size (marimea intregii colectii) doar adaug la total nr de frecvente de aparitie a fiecarui element, ca sa aflu cate elemente (cu nr total de
+aparitie pt fiecare in elems in parte) am in total in toata colectia.
+Pentru metoda getAt care imi spune ce element am la o anumita pozitie, intai verific ca acea pozitie sa nu fie mai mica decat 0 sau sa depaseasca
+size() (arunc o exceptie). Cu un contor initializat cu 0, ma plimb cu i pe toata lungimea length a vectorului de perechi si cu j pe toata lungimea
+elems[i].freq a perechii curente elems[i], si tot maresc contorul pana cand e egal cu pozitia la care se afla elementul pe care vreau sa il aflu cat e;
+cand sunt egale, returnez elementul elems[i].elem. Daca dupa toata cautarea nu s-a returnat nimic, ceva s-a intamplat (nu stiu ce wtf??) si arunc o
+exceptie.
+La metoda resize(), maresc capacitatea colectiei de 2 ori (nu trebuie scris this->capacity neaparat, pentru ca nu e pericol de confuzie, se recunoaste
+ca e vorba de Collection<E> din definitia medotei resize(), creez o pereche noua newElems de tip Pair<E> la adresa caruia pun o noua pereche E de
+capacitatea modificata. Parcurgand tot vectorul de lungime length, in newElems pun fiecare element din elems. La final sterg elems (this->elems) si
+this->elems (pointer!!) primeste adresa spre care pointuiaza newElems (!!care e si el pointer).
+La destructor pur si simplu sterg toate elems delete[] this->elems.
+
+
+ATM
+
+Clasa ATM are ca metoda private o colectie de banknote intregi. E private pentru ca nu vreau ca utilizatorul sa aiba acces la ele in sine ca sa le
+modifice, dar pentru a putea lucra cu ele, in metodele publice pun ATM() null, metoda de adaugare, de aflare a nr de banknote de o anumita valoare
+(output constant) si metoda de extragere de un anumit numar de bancnote de o anumita valoare (adica un ATM simplu in care pot doar sa pun bani, sa
+aflu cat am si sa scot bani)
+
+La implementarea metodelor, ATM() e goala.
+Metoda de adaugare doar parcurge cu i pana la numarul cerut si in singura variabila privata a ATM-ului banknotes (de tip colectie), adaug valoarea
+dorita. Fiind o bancnota de tip colectie, se foloseste metoda add(value) implementata la colectie pentru a se adauga valoarea dorita, in modul specific
+unei colectii (se creste frecventa sau se adauga un elem nou, depinde daca exista tipul acela de bancnota in bancomat deja sau nu).
+
+Pentru a afla cate banknote de un anumit tip exista deja, doar se returneaza metoda noOccurences(value) din colectia de banknote
+(banknnotes.noOccurences(value)) deja implementata.
+
+Pentru metoda de extragere a unui anumit numar de banknote de o anumita valoare, prima data se verifica daca in colectia de banknote exista suficiente
+banknote de acea valoare (noOccurences(value). Daca exista, nu se returneaza false si se trece mai departe in a folosi metoda remove din colectie
+pentru a sterge din colectie (din frecventa bancnotei respective) numarul dorit de banknote de valoarea value. Se returneaza true daca totul merge bine.
+
+Acum avem un ATM (in service) cu o colectie de banknote. Operatiile efectuate de acest ATM se numesc/sunt sub forma de tranzactii. Asa ca, trebuie sa
+definim ce e aceea o tranzactie. Operatia tranzactie (sau orice alta operatie cu care vrem sa lucram in service pe acest ATM) se defineste stratificat,
+cu domain, repo, service, ui. Toate actiunile de extragere bani, adaugare bani, later on maybe transferare bani in alt cont etc, se fac de catre
+utilizator la nivel de ui si se numesc tranzactii. Utilizatorul nu are acces la niciun vector de banknote, nu poate lua pur si simplu ce vrea, el
+acceseaza banii fara sa ii atinga, de aceea tranzactiile sunt facute stratificat, construite pentru ATM-ul cu colectia de banknote. Stratificarea
+este de fapt ceea ce garanteaza separarea administratorului de utilizator, oferind securitate.
+
+
+DOMAIN
+
+Clasa Transaction are ca metode private id ul tranzactiei, suma totala a tranzactiei, numarul total de banknote folosite pentru tranzactie si pointer
+catre bancnotele de plata banknotes folosite (de tip PaymentBanknotes*), care, in memorie, se uita la locatia de memorie unde sunt salvate, in pereche
+(struct) bancnotele de plata care au valoare si numar (frecventa).
+Metodele publice sunt aceleai ca intotdeauna, default constructorul (tranzactia vida), constructorul (initializare), copy constructorul (atribut
+pointer constant spre sursa de copiat), operatorul de atribuire (--//--) , dar apar in plus getterele (vreau sa aflu tot ce e in metodele private
+chiar daca nu le pot atinge/modifica) si operatorul de egalitate == (--//--) cu output constant, care, la implementare, il fac sa defineasca ce
+inseamna ca doua tranzactii sunt egale (id egal), metoda care va fi folosita la orice operatie care necesita un search. Don’t forget the destruction
+method ~Transaction().
+
+La definirea constructorului default, banknotes (!!pointer) se initializeaza cu pointerul null.
+La constructor, tranzactiei this ii punem id-ul, suma si noBanknotes date in atributele din paranteza, iar pointerul banknotes vrem sa il facem sa
+arate (fiecare din elementele acestui pointer) catre elementele vectorului b de tip PaymentBanknote*.
+Constructorul de copiere e the usual one, la fel si cel de atribuire si de distrugere.
+Operatorul == se defineste returnand un bool al relatiei this->id == source.this->id ( id == source.id)
+Getterele doar returneaza this->id/sum/etc.
+
+
+REPO
+
+Clasa RepoTransactions are in privat pointerul tranzactie de tip Transaction, marimea, capacitatea si metode resize(). Public, the usual: add,
+getsize, getTransacton(index), delete constructor. Basically vrem ca operatiile efectuate de ATM (tranzactiile) sa fie contorizate (size) si sa
+existe o capacitate in memorie in care le salvam, dar sa avem optiune de resize() daca locul in memorie se umple la un moment dat. Also vrem sa
+putem ajunge cu un get la a index-a tranzactie efectuata.
+Definirea metodelor e the usual, subliniez ca la adaugare, dupa verificarea daca size a atins capacitatea si resize-ul daca e necesar, adaugarea
+de tranzactii se face pur si simplu crescand size++ din this->transaction (adica inaintarea pointerului this spre urmatoarea pozitie din locul unde
+se pun tranzactiile in memorie) si punerea pe acea pozitie a tranzactiei t. Se observa aici folosirea operatorului de atribuire definit in domain.
+
+
+SERVICE

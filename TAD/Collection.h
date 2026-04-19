@@ -22,15 +22,18 @@ public:
     Collection();
     Collection(const Collection& source);
     Collection& operator=(const Collection& source);
-    void add(E elem);
-    bool remove(E elem);
+    void add(E elem); //Void pt ca pot adauga orice si nu trebuie sa stiu daca s-a adaugat sau nu, restrictiile le pun in UI
+    bool remove(E elem); //Bool pt ca vreau sa stiu daca am eliminat sau nu un element, adica daca a fost prezent acel element pt eliminare
     bool search(E elem) const;
     int noOccurrences(E elem) const;
     int size() const;
-    E getAt(int position) const;
+    E getAt(int position) const; //imi da bancnota de pe sirul 500, 500, etc, 100, 100, etc
     ~Collection();
+    //getAtType(); imi da bancnota de tipul respectiv
 };
 
 #include "Collection.tpp"
 
 #endif //SDA_CPP_COLLECTION_H
+
+

@@ -29,7 +29,7 @@ void UI::run() {
                 int value, number;
                 std::cout << "Enter banknote value (e.g., 10, 20, 50, 100, 200, 500, 1000): ";
                 std::cin >> value;
-                if (int(value) != 10 && int(value) != 20 && int(value) != 50 && int(value) != 100 && int(value) != 200 && int(value) != 500 && int(value) != 1000) {
+                if ((int(value) != 10 && int(value) != 20 && int(value) != 50 && int(value) != 100 && int(value) != 200 && int(value) != 500 && int(value) != 1000) || int(value) <= 0) {
                     std::cout << "This type of banknote does not exist.";
                     break;
                 }
