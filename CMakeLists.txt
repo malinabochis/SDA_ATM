@@ -19,4 +19,6 @@ add_executable(SDA_ATM  main.cpp
         TAD/OrderedSet.h
         infrastructure/Algorithms.h
         TAD/OrderedSet.tpp
-        infrastructure/Algorithms.tpp)
+        infrastructure/Algorithms.tpp
+        TAD/DynamicVector.h
+        TAD/DynamicVector.tpp)
