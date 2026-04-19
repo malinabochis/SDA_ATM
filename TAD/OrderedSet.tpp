@@ -16,7 +16,7 @@ void OrderedSet<E>::resize() {
 //constructor
 
 template<typename E>
-OrderedSet<E>::OrderedSet(bool(*comp)(E, E)) {
+OrderedSet<E>::OrderedSet(bool(*comp)(const E&, const E&)) {
     capacity = 10;
     size = 0;
     elems = new E[capacity];

@@ -40,7 +40,7 @@ int RepoTransactions::getSize() const {
 
 // get
 
-const Transaction& RepoTransactions::get(int index) const {
+const Transaction& RepoTransactions::get_transaction(int index) const {
     return transaction[index];
 }
 

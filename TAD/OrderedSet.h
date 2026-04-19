@@ -9,10 +9,10 @@ private:
     E* elems;
     int size;
     int capacity;
-    bool (*comparator)(E,E);
+    bool (*comparator)(const E&,const E&);
     void resize();
 public:
-    OrderedSet(bool (*comp)(E,E));
+    OrderedSet(bool (*comp)(const E&, const E&));
     OrderedSet(const OrderedSet& source);
     void add(E elem);
     int search_position(E elem);

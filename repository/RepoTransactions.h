@@ -14,8 +14,8 @@ private:
 public:
     RepoTransactions();
     void add(const Transaction& t);
-    int getSize() const;
-    const Transaction& get(int index) const;
+    [[nodiscard]] int getSize() const;
+    [[nodiscard]] const Transaction& get_transaction(int index) const;
     ~RepoTransactions();
 };
 

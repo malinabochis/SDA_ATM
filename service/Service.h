@@ -18,8 +18,8 @@ public:
     void addBanknotes(int value, int number);
     Transaction extraction(int sum);
     void showTransaction() const;
-    OrderedSet<Transaction> getTransactionsSortedBySum();
-    OrderedSet<Transaction> getTransactionsSortedById();
+    [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedBySum() const;
+    [[nodiscard]] OrderedSet<Transaction> getTransactionsSortedById() const;
 };
 
 #endif //SDA_CPP_SERVIE_H

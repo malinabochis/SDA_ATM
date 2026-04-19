@@ -94,7 +94,7 @@ void Service::showTransaction() const {
     std::cout << "\n=== ATM TRANSACTIONS HISTORY ===\n";
 
     for (int i = 0; i < size; i++) {
-        const Transaction& t = repo.get(i);
+        const Transaction& t = repo.get_transaction(i);
 
         std::cout << "Transaction #" << t.getId() << " | Extracted Sum: " << t.getSum() << " RON\n";
         std::cout << "Used banknotes:\n";
@@ -109,9 +109,28 @@ void Service::showTransaction() const {
     }
 }
 
-OrderedSet<Transaction> Service::getTransactionsSortedBySum() {
 
+static bool compBySum(const Transaction& t1, const Transaction& t2) {
+    return t1.getSum() < t2.getSum();
 }
 
-OrderedSet<Transaction> Service::getTransactionsSortedById() {
+OrderedSet<Transaction> Service::getTransactionsSortedBySum() const {
+    OrderedSet<Transaction> sortedTransactions(compBySum); //null set
+    int size = repo.getSize();
+    for (int i=0; i < size; i++)
+        sortedTransactions.add(repo.get_transaction(i));
+    return sortedTransactions;
+}
+
+
+static bool compById(const Transaction& t1, const Transaction& t2) {
+    return t1.getId() < t2.getId();
+}
+
+OrderedSet<Transaction> Service::getTransactionsSortedById() const {
+    OrderedSet<Transaction> sortedTransactions(compById);
+    int size = repo.getSize();
+    for (int i = 0; i < size; i++)
+        sortedTransactions.add(repo.get_transaction(i));
+    return sortedTransactions;
 }
