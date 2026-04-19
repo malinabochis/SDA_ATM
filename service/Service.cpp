@@ -1,7 +1,7 @@
 #include "Service.h"
 
 #include <iostream>
-
+#include <ctime>
 // constructor
 
 Service::Service() {
@@ -47,6 +47,18 @@ bool Service::backtrackExtraction(int rest, int stepIndex, int *currentPlan, int
 
 // extraction (transaction)
 
+static Date getCurrentDate() {
+    const time_t now = time(nullptr);
+    const tm* local = localtime(&now);
+
+    Date d{};
+    d.day = local->tm_mday;
+    d.month = local->tm_mon + 1; //months indexed from 0
+    d.year = local->tm_year + 1900; //years are counted from 1900
+
+    return d;
+}
+
 Transaction Service::extraction(int sum) {
     if (sum <= 0) throw std::exception();
 
@@ -56,6 +68,9 @@ Transaction Service::extraction(int sum) {
 
     bool isPossible = backtrackExtraction(sum, 0, currentPlan, finalPlan, possibleValues);
     if (isPossible) {
+        Date date = getCurrentDate();
+
+        //constructing extracted banknotes
         int uniqueBanknotes = 0;
         for (int i = 0; i < 7; i++)
             if (finalPlan[i] > 0) {
@@ -63,7 +78,7 @@ Transaction Service::extraction(int sum) {
                 uniqueBanknotes++;
             }
 
-        PaymentBanknote* extracted = new PaymentBanknote[uniqueBanknotes];
+        auto* extracted = new PaymentBanknote[uniqueBanknotes];
         int index = 0;
         for (int i = 0; i < 7; i++)
             if (finalPlan[i] > 0) {
@@ -71,7 +86,7 @@ Transaction Service::extraction(int sum) {
                 extracted[index].number = finalPlan[i];
                 ++index;
             }
-        Transaction t(nextId++, sum, extracted, uniqueBanknotes);
+        Transaction t(nextId++, sum, extracted, uniqueBanknotes, date);
         repo.add(t);
         delete[] extracted;
         return t;
